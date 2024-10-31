@@ -42,11 +42,6 @@ public class SecurityConfig {
     }*/
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
