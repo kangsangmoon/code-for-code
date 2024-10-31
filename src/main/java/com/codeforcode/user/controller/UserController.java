@@ -1,5 +1,6 @@
 package com.codeforcode.user.controller;
 
+import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.user.dto.UserDto;
 import com.codeforcode.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserController {
         this.userService = userService;
     }*/
 
+    @Trace
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("hello");
@@ -32,10 +34,9 @@ public class UserController {
         response.sendRedirect("/api/user");
     }
 
+    @Trace
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(
-            @Valid @RequestBody UserDto userDto
-    ) {
+    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.signup(userDto));
     }
 

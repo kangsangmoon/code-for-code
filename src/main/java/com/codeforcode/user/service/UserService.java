@@ -2,6 +2,7 @@ package com.codeforcode.user.service;
 
 import java.util.Collections;
 
+import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.auth.domain.Authority;
 import com.codeforcode.error.excpetion.user.DuplicateUserException;
 import com.codeforcode.error.excpetion.user.NotFoundMemberException;
@@ -13,10 +14,12 @@ import com.codeforcode.user.repository.UserRepository;
 import com.codeforcode.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -27,6 +30,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }*/
 
+    @Trace
     @Transactional
     public UserDto signup(@Valid UserDto userDto) {
         if (userRepository.findOneWithAuthoritiesByUserId(userDto.getUserId()).orElse(null) != null) {
