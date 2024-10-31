@@ -1,5 +1,7 @@
 package com.codeforcode.error;
 
+import com.codeforcode.error.dto.ErrorMessage;
+import com.codeforcode.error.dto.ErrorResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

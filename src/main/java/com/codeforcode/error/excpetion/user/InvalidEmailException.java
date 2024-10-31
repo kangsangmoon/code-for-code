@@ -1,4 +1,4 @@
-package com.codeforcode.user.domain.vo;
+package com.codeforcode.error.excpetion.user;
 
 import com.codeforcode.error.BusinessException;
 import com.codeforcode.error.dto.ErrorMessage;
