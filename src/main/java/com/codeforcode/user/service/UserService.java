@@ -3,9 +3,11 @@ package com.codeforcode.user.service;
 import java.util.Collections;
 
 import com.codeforcode.auth.domain.Authority;
-import com.codeforcode.excpetion.DuplicateMemberException;
-import com.codeforcode.excpetion.NotFoundMemberException;
+import com.codeforcode.error.excpetion.user.DuplicateUserException;
+import com.codeforcode.error.excpetion.user.NotFoundMemberException;
 import com.codeforcode.user.domain.User;
+import com.codeforcode.user.domain.vo.Name;
+import com.codeforcode.user.domain.vo.Password;
 import com.codeforcode.user.dto.UserDto;
 import com.codeforcode.user.repository.UserRepository;
 import com.codeforcode.util.SecurityUtil;
@@ -19,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     /*public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -28,8 +29,8 @@ public class UserService {
 
     @Transactional
     public UserDto signup(@Valid UserDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
-            throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
+        if (userRepository.findOneWithAuthoritiesByUserId(userDto.getUserId()).orElse(null) != null) {
+            throw new DuplicateUserException();
         }
 
         Authority authority = Authority.builder()
@@ -37,8 +38,9 @@ public class UserService {
                 .build();
 
         User user = User.builder()
-                .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
+                .userId(userDto.getUserId())
+                .name(new Name(userDto.getName()))
+                .password(userDto.getPassword())
                 .nickname(userDto.getNickname())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
@@ -49,15 +51,15 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String username) {
-        return UserDto.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
+        return UserDto.from(userRepository.findOneWithAuthoritiesByUserId(username).orElse(null));
     }
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
         return UserDto.from(
                 SecurityUtil.getCurrentUsername()
-                        .flatMap(userRepository::findOneWithAuthoritiesByUsername)
-                        .orElseThrow(() -> new NotFoundMemberException("Member not found"))
+                        .flatMap(userRepository::findOneWithAuthoritiesByUserId)
+                        .orElseThrow(NotFoundMemberException::new)
         );
     }
 }

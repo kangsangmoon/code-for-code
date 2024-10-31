@@ -1,6 +1,9 @@
 package com.codeforcode.user.domain;
 
 import com.codeforcode.auth.domain.Authority;
+import com.codeforcode.user.domain.converter.PasswordEncodeConverter;
+import com.codeforcode.user.domain.vo.Email;
+import com.codeforcode.user.domain.vo.Name;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.Set;
@@ -15,15 +18,23 @@ import java.util.Set;
 public class User {
 
    @Id
-   @Column(name = "user_id")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long userId;
+   private Long id;
 
-   @Column(name = "username", length = 50, unique = true)
-   private String username;
+   @Column(name = "user_id")
+   private String userId;
 
-   @Column(name = "password", length = 100)
+   @Column
+   @Convert(converter = PasswordEncodeConverter.class)
    private String password;
+
+   @Embedded
+   @Column
+   private Name name;
+
+   @Column
+   @Embedded
+   private Email email;
 
    @Column(name = "nickname", length = 50)
    private String nickname;
