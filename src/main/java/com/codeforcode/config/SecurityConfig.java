@@ -54,7 +54,7 @@ public class SecurityConfig {
             )
 
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers("/api/hello", "/api/authenticate", "/api/signup","/swagger-ui.html").permitAll()
+                .requestMatchers("/api/hello", "/api/authenticate", "/api/signup","/swagger-ui.html", "/api/**").permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated()
             )
