@@ -62,11 +62,13 @@ public class QuestionRepository {
                 .select(new QQuestionListDto(
                         question.id.as("id"),
                         question.title.as("title"),
-                        user.nickname.as("userName")
+                        user.userName.as("userName")
                 ))
                 .from(question)
                 .where(solutionIdEq(solutionId))
-                .leftJoin(question).on(user.id.eq(question.userId)).fetch();
+                .join(user)
+                .on(user.id.eq(question.userId))
+                .fetch();
     }
 
     @Transactional(readOnly = true)
@@ -82,7 +84,7 @@ public class QuestionRepository {
                 .fetchOne();
 
         String userName = queryFactory
-                .select(user.nickname)
+                .select(user.userName)
                 .from(user)
                 .where(userIdEq(questionResult.getUserId()))
                 .fetchOne();

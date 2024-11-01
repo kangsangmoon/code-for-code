@@ -17,6 +17,7 @@ public class QuestionRegisterRequest {
                 .context(context)
                 .code(code)
                 .title(title)
+                .solutionId(solutionId)
                 .build();
     }
 }
