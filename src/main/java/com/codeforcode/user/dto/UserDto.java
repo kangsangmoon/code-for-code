@@ -40,7 +40,7 @@ public class UserDto {
 
       return UserDto.builder()
               .userId(user.getUserId())
-              .nickname(user.getNickname())
+              .nickname(user.getUserName())
               .authorityDtoSet(user.getAuthorities().stream()
                       .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                       .collect(Collectors.toSet()))

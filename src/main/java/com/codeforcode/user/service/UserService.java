@@ -45,7 +45,7 @@ public class UserService {
                 .userId(userDto.getUserId())
                 .name(new Name(userDto.getName()))
                 .password(userDto.getPassword())
-                .nickname(userDto.getNickname())
+                .userName(userDto.getNickname())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
