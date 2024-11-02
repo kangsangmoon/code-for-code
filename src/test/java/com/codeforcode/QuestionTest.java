@@ -3,7 +3,7 @@ package com.codeforcode;
 import com.codeforcode.auth.domain.Authority;
 import com.codeforcode.question.domain.Comment;
 import com.codeforcode.question.domain.Question;
-import com.codeforcode.question.dto.response.QQuestionListDto;
+import com.codeforcode.question.dto.question.response.QQuestionListDto;
 import com.codeforcode.question.dto.question.response.QuestionDto;
 import com.codeforcode.question.dto.question.response.QuestionListDto;
 import com.codeforcode.user.domain.User;
