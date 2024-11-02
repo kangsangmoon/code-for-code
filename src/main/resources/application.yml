@@ -19,6 +19,13 @@ spring:
         format_sql: true
         show_sql: true
     defer-datasource-initialization: true
+
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html # 스웨거 접근 경로
@@ -29,6 +36,8 @@ springdoc:
   default-produces-media-type: application/json # response media type 의 기본 값
   paths-to-match: # 해당 패턴에 매칭되는 controller만 swagger-ui에 노출한다.
   - /api/v1/**
+
+
 jwt:
   header: Authorization
   #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
