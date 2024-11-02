@@ -5,7 +5,7 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:tcp://localhost/~/querydsl
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -20,10 +20,16 @@ spring:
         show_sql: true
     defer-datasource-initialization: true
 
+  sql:
+    init:
+      mode: always
+
   data:
     redis:
       port: 6379
       host: localhost
+      repositories:
+        enabled: false
 
 
 springdoc:
