@@ -1,6 +1,6 @@
-package com.codeforcode.question.controller;
+package com.codeforcode.question.controller.question;
 
-import com.codeforcode.question.dto.request.QuestionRegisterRequest;
+import com.codeforcode.question.dto.question.request.QuestionRegisterRequest;
 import com.codeforcode.question.repository.QuestionRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +39,10 @@ public class QuestionController {
     @GetMapping("/solution/{solutionId}")
     public ResponseEntity<?> getSolutionById(@PathVariable(value = "solutionId") Long solutionId) {
         return ResponseEntity.ok(questionRepository.findBySolutionId(solutionId));
+    }
+
+    @GetMapping("/page/{questionId}")
+    public ResponseEntity<?> getQuestionPage(@PathVariable(value = "questionId") Long questionId) {
+        return ResponseEntity.ok(questionRepository.findQuestionByQuestionId(questionId));
     }
 }

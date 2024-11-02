@@ -1,16 +1,12 @@
 package com.codeforcode.question.domain;
 
 import com.codeforcode.common.BaseEntity;
-import com.codeforcode.question.dto.response.QuestionDto;
-import com.codeforcode.solution.Solution;
-import com.codeforcode.user.domain.User;
+import com.codeforcode.question.dto.question.response.QuestionDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Getter

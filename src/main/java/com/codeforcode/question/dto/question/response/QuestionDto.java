@@ -1,4 +1,4 @@
-package com.codeforcode.question.dto.response;
+package com.codeforcode.question.dto.question.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

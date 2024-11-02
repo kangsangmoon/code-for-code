@@ -1,12 +1,15 @@
 package com.codeforcode.question.domain;
 
 import com.codeforcode.common.BaseEntity;
+import com.codeforcode.question.dto.comment.response.CommentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment extends BaseEntity {
@@ -23,5 +26,15 @@ public class Comment extends BaseEntity {
         this.questionId = questionId;
         this.userId = userId;
         this.context = context;
+    }
+
+    public CommentDto toDto(){
+        return CommentDto
+                .builder()
+                .id(id)
+                .questionId(questionId)
+                .userId(userId)
+                .context(context)
+                .build();
     }
 }

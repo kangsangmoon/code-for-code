@@ -1,11 +1,10 @@
-package com.codeforcode.question.dto.response;
+package com.codeforcode.question.dto.question.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class QuestionListDto {
     private Long id;
     private String title;

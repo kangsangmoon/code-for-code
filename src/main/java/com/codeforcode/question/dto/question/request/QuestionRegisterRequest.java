@@ -1,4 +1,4 @@
-package com.codeforcode.question.dto.request;
+package com.codeforcode.question.dto.question.request;
 
 import com.codeforcode.question.domain.Question;
 import lombok.Data;

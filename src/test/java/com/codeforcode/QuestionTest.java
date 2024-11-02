@@ -4,17 +4,14 @@ import com.codeforcode.auth.domain.Authority;
 import com.codeforcode.question.domain.Comment;
 import com.codeforcode.question.domain.Question;
 import com.codeforcode.question.dto.response.QQuestionListDto;
-import com.codeforcode.question.dto.response.QuestionDto;
-import com.codeforcode.question.dto.response.QuestionListDto;
-import com.codeforcode.question.dto.response.QuestionPageDto;
-import com.codeforcode.question.repository.QuestionRepository;
+import com.codeforcode.question.dto.question.response.QuestionDto;
+import com.codeforcode.question.dto.question.response.QuestionListDto;
 import com.codeforcode.user.domain.User;
 import com.codeforcode.user.domain.vo.Email;
 import com.codeforcode.user.domain.vo.Name;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +22,6 @@ import java.util.List;
 
 import static com.codeforcode.question.domain.QQuestion.question;
 import static com.codeforcode.user.domain.QUser.user;
-import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 
 @SpringBootTest
 @Transactional
