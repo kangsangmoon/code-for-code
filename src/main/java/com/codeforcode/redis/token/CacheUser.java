@@ -1,4 +1,4 @@
-package com.codeforcode.redis;
+package com.codeforcode.redis.token;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,4 @@ public class CacheUser implements Serializable {
     @Id
     private Long id;
     private String name;
-
-
 }

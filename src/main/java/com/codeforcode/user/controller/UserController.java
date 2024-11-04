@@ -2,6 +2,7 @@ package com.codeforcode.user.controller;
 
 import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.user.dto.UserDto;
+import com.codeforcode.user.dto.UserRegisterRequest;
 import com.codeforcode.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,19 +37,19 @@ public class UserController {
 
     @Trace
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.signup(userDto));
+    public ResponseEntity<?> signup(@Valid @RequestBody UserRegisterRequest request) {
+        return ResponseEntity.ok(userService.signup(request));
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {
+    public ResponseEntity<?> getMyUserInfo(HttpServletRequest request) {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
+    public ResponseEntity<?> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username));
     }
 }

@@ -6,6 +6,8 @@ import com.codeforcode.question.domain.Question;
 import com.codeforcode.user.domain.converter.PasswordEncodeConverter;
 import com.codeforcode.user.domain.vo.Email;
 import com.codeforcode.user.domain.vo.Name;
+import com.codeforcode.user.dto.UserDto;
+import com.codeforcode.user.dto.UserResponse;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.Set;
@@ -61,5 +63,16 @@ public class User extends BaseEntity {
       this.userName = userName;
       this.activated = activated;
       this.authorities = authorities;
+   }
+
+   public UserResponse toResponse() {
+      return UserResponse.builder()
+              .id(id).userId(userId)
+              .password(password)
+              .name(name)
+              .email(email)
+              .userName(userName)
+              .activated(activated)
+              .authorities(authorities).build();
    }
 }

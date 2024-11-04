@@ -14,7 +14,15 @@ public enum ErrorMessage {
     NOT_FOUND_USERS_EXCEPTION(HttpStatus.NOT_FOUND,"요청한 USER 를 찾을 수 없습니다"),
     INVALID_PASSWORD_REGEX(HttpStatus.CONFLICT, "유효한 비밀번호 형식이 아닙니다"),
     INVALID_EMAIL_REGEX(HttpStatus.CONFLICT,"유효한 이메일 형식이 아닙니다"),
-    INVALID_NAME_REGEX(HttpStatus.CONFLICT,"유효한 이름 형식이 아닙니다")
+    INVALID_NAME_REGEX(HttpStatus.CONFLICT,"유효한 이름 형식이 아닙니다"),
+    LOGIN_FAIL(HttpStatus.BAD_REQUEST,"ID/PW 가 일치하지 않습니다"),
+
+    //JWT
+    INVALID_JWT(HttpStatus.UNAUTHORIZED,"유효하지 않은 JWT 토큰입니다"),
+
+
+    //Redis
+    REDIS_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Redis Server에서 오류가 발생했습니다")
     ;
 
 

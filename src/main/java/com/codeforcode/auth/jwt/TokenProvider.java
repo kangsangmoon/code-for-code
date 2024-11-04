@@ -3,37 +3,44 @@ package com.codeforcode.auth.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class TokenProvider implements InitializingBean {
 
-   private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
    private static final String AUTHORITIES_KEY = "auth";
+   private final String AUTHORIZATION_HEADER = "Authorization";
    private final String secret;
    private final long tokenValidityInMilliseconds;
    private Key key;
+   private final RedisTemplate<String, String> redisTemplate;
 
    public TokenProvider(
-      @Value("${jwt.secret}") String secret,
-      @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+           @Value("${jwt.secret}") String secret,
+           @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds,
+           RedisTemplate<String, String> redisTemplate) {
       this.secret = secret;
       this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+      this.redisTemplate = redisTemplate;
    }
 
    @Override
@@ -42,7 +49,7 @@ public class TokenProvider implements InitializingBean {
       this.key = Keys.hmacShaKeyFor(keyBytes);
    }
 
-   public String createToken(Authentication authentication) {
+   public String createAccessToken(Authentication authentication) {
       String authorities = authentication.getAuthorities().stream()
          .map(GrantedAuthority::getAuthority)
          .collect(Collectors.joining(","));
@@ -51,11 +58,39 @@ public class TokenProvider implements InitializingBean {
       Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
       return Jwts.builder()
-         .setSubject(authentication.getName())
-         .claim(AUTHORITIES_KEY, authorities)
-         .signWith(key, SignatureAlgorithm.HS512)
-         .setExpiration(validity)
-         .compact();
+              .setSubject(authentication.getName())
+              .claim(AUTHORITIES_KEY, authorities)
+              .signWith(key, SignatureAlgorithm.HS512)
+              .setExpiration(validity)
+              .compact();
+   }
+
+
+   /**
+    * Refresh 토큰 생성
+    * @implSpec redis에 저장될 때 tokenValue와 시간 제한까지 저장되는 것 모두 확인됨
+    * */
+   public String createRefreshToken(Authentication authentication){
+      Claims claims = Jwts.claims().setSubject(authentication.getName());
+      Date now = new Date();
+      Date expireDate = new Date(now.getTime() + tokenValidityInMilliseconds);
+
+      String refreshToken = Jwts.builder()
+              .setClaims(claims)
+              .setIssuedAt(now)
+              .setExpiration(expireDate)
+              .signWith(SignatureAlgorithm.HS256, key)
+              .compact();
+
+      // redis에 저장
+      redisTemplate.opsForValue().set(
+              authentication.getName(),
+              refreshToken,
+              tokenValidityInMilliseconds,
+              TimeUnit.MILLISECONDS
+      );
+
+      return refreshToken;
    }
 
    public Authentication getAuthentication(String token) {
@@ -81,14 +116,24 @@ public class TokenProvider implements InitializingBean {
          Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
          return true;
       } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-         logger.info("잘못된 JWT 서명입니다.");
+         log.info("잘못된 JWT 서명입니다.");
       } catch (ExpiredJwtException e) {
-         logger.info("만료된 JWT 토큰입니다.");
+         log.info("만료된 JWT 토큰입니다.");
       } catch (UnsupportedJwtException e) {
-         logger.info("지원되지 않는 JWT 토큰입니다.");
+         log.info("지원되지 않는 JWT 토큰입니다.");
       } catch (IllegalArgumentException e) {
-         logger.info("JWT 토큰이 잘못되었습니다.");
+         log.info("JWT 토큰이 잘못되었습니다.");
       }
       return false;
+   }
+
+   public String resolveToken(HttpServletRequest request) {
+      String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+
+      if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+         return bearerToken.substring(7);
+      }
+
+      return null;
    }
 }

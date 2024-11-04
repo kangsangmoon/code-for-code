@@ -1,4 +1,4 @@
-package com.codeforcode.redis;
+package com.codeforcode.redis.token;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ public class TokenController {
 
     @PostMapping
     public ResponseEntity<?> save(TokenRegisterRequest request){
-        return ResponseEntity.ok(tokenService.save(request));
+        return ResponseEntity.ok(tokenService.save(request.getToken(), request.getUserName()));
     }
 
     @GetMapping("/{token}")
