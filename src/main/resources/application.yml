@@ -41,8 +41,12 @@ springdoc:
   default-consumes-media-type: application/json # request media type 의 기본 값
   default-produces-media-type: application/json # response media type 의 기본 값
   paths-to-match: # 해당 패턴에 매칭되는 controller만 swagger-ui에 노출한다.
-  - /api/v1/**
+    - /api/v1/**
 
+gemini:
+  api:
+    url: https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent
+    key: AIzaSyA8--dAdNFlhRLVFJsamh9U7jSeXTMAq5A
 
 jwt:
   header: Authorization
