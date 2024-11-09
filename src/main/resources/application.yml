@@ -43,10 +43,10 @@ springdoc:
   paths-to-match: # 해당 패턴에 매칭되는 controller만 swagger-ui에 노출한다.
     - /api/v1/**
 
-gemini:
-  api:
-    url: https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent
-    key: AIzaSyA8--dAdNFlhRLVFJsamh9U7jSeXTMAq5A
+#gemini:
+#  api:
+#    url: https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent
+#    key: AIzaSyA8--dAdNFlhRLVFJsamh9U7jSeXTMAq5A
 
 jwt:
   header: Authorization
