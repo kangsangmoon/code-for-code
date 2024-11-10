@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.codeforcode.user.domain.QUser.user;
 
 @Slf4j
@@ -56,5 +58,13 @@ public class UserRepository {
                 .fetchOne();
 
         return result != null ? result.toResponse() : null;
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> ranking() {
+        List<User> fetch = queryFactory.selectFrom(user)
+                .orderBy(user.point.desc()).fetch();
+
+        return fetch != null ? fetch.stream().map(User::toResponse).toList() : null;
     }
 }

@@ -2,6 +2,7 @@ package com.codeforcode.user.controller;
 
 import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.user.dto.UserRegisterRequest;
+import com.codeforcode.user.repository.UserRepository;
 import com.codeforcode.user.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/user")
 public class UserController {
     private final UserAuthService userAuthService;
+    private final UserRepository userRepository;
 
 
     @Trace
@@ -39,5 +41,11 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userAuthService.getUserWithAuthorities(username));
+    }
+
+    @Trace
+    @GetMapping("/ranking")
+    public ResponseEntity<?> getRanking() {
+        return ResponseEntity.ok(userRepository.ranking());
     }
 }
