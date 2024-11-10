@@ -20,9 +20,22 @@ public enum ErrorMessage {
     //JWT
     INVALID_JWT(HttpStatus.UNAUTHORIZED,"유효하지 않은 JWT 토큰입니다"),
 
+    //EXAMPLE
+    EXAMPLE_NOT_FIND_BY_ID(HttpStatus.NOT_FOUND, "요청한 ID로 EXAMPLE을 찾을 수 없습니다"),
+
 
     //Redis
-    REDIS_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Redis Server에서 오류가 발생했습니다")
+    REDIS_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Redis Server에서 오류가 발생했습니다"),
+
+    //Compile
+    UNSUPPORTED_LANGUAGE(HttpStatus.BAD_REQUEST, "지원하지 않는 언어입니다."),
+    EXECUTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "코드 실행에 실패했습니다."),
+    GENERAL_COMPILE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "컴파일 과정에서 오류가 발생했습니다."),
+    INVALID_PATH_EXCEPTION(HttpStatus.BAD_REQUEST, "유효하지 않은 경로입니다."),
+    ACCESS_PERMISSION_EXCEPTION(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
+
+    //UTIL
+    NOT_FOUND_CLIENT_ID_HEADER(HttpStatus.BAD_REQUEST,"헤더에서 클라이언트의 ID를 찾을 수 없습니다")
     ;
 
 
