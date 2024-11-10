@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class TokenRegisterRequest {
-    private Long userId;
+    private String userName;
     private String token;
 }

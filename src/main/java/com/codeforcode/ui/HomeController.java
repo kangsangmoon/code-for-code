@@ -4,11 +4,13 @@ import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.auth.jwt.TokenProvider;
 import com.codeforcode.redis.token.TokenService;
 import com.codeforcode.user.dto.UserResponse;
+import com.codeforcode.user.repository.UserRepository;
 import com.codeforcode.user.service.UserAuthService;
 import com.codeforcode.util.HeaderUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     private final TokenProvider tokenProvider;
     private final TokenService tokenService;
-    private final UserAuthService userAuthService;
+    private final UserRepository userRepository;
 
     @Trace
     @RequestMapping
@@ -29,8 +31,8 @@ public class HomeController {
     {
         String token = HeaderUtil.resolveRefreshToken(req);
         if(tokenProvider.validateToken(token)) {
-            Long userId = tokenService.find(token);
-            var userResponse = userAuthService.findById(userId);
+            String name = tokenProvider.getAuthentication(token).getName();
+            var userResponse = userRepository.findByUserId(name);
             model.addAttribute("user", userResponse);
             return "auth/home";
         }

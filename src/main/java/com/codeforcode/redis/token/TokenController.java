@@ -12,7 +12,7 @@ public class TokenController {
 
     @PostMapping
     public ResponseEntity<?> save(TokenRegisterRequest request) {
-        return ResponseEntity.ok(tokenService.save(request.getToken(), request.getUserId()));
+        return ResponseEntity.ok(tokenService.save(request.getToken(), request.getUserName()));
     }
 
     @GetMapping("/{token}")

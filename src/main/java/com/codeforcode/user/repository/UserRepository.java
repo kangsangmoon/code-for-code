@@ -5,7 +5,6 @@ import com.codeforcode.user.dto.UserResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +23,6 @@ public class UserRepository {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Transactional(readOnly = true)
-    public User findByUserId(String userId) {
-        return queryFactory.selectFrom(user)
-                .where(user.userId.eq(userId)).fetchOne();
     }
 
     @Transactional(readOnly = true)
@@ -53,5 +46,15 @@ public class UserRepository {
         return queryFactory.selectFrom(user)
                 .where(user.userId.eq(userId))
                 .fetchOne();
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse findByUserId(String userId) {
+        User result = queryFactory
+                .selectFrom(user)
+                .where(user.userId.eq(userId))
+                .fetchOne();
+
+        return result != null ? result.toResponse() : null;
     }
 }

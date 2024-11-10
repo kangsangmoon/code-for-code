@@ -52,7 +52,6 @@ public class AuthController {
         log.info(authenticationToken.toString());
         log.info(authenticationToken.getCredentials().toString());
 
-        //TODO 여기서 에러 발생
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken); //여기
         log.info(authentication.toString());
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -90,5 +89,11 @@ public class AuthController {
         httpHeaders.add(refreshHeader, refreshToken);
 
         return new ResponseEntity<>(new TokenDto(accessToken, refreshToken), httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/{token}")
+    public ResponseEntity<?> getAuth(@PathVariable(value = "token") String token) {
+        Authentication authentication = tokenProvider.getAuthentication(token);
+        return ResponseEntity.ok(authentication);
     }
 }

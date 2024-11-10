@@ -5,6 +5,7 @@ import com.codeforcode.redis.token.TokenService;
 import com.codeforcode.solution.dto.response.SolutionResponse;
 import com.codeforcode.solution.repository.SolutionRepository;
 import com.codeforcode.user.dto.UserResponse;
+import com.codeforcode.user.repository.UserRepository;
 import com.codeforcode.user.service.UserAuthService;
 import com.codeforcode.util.HeaderUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +24,7 @@ public class SolutionUiController {
 
     private final SolutionRepository solutionRepository;
     private final TokenProvider tokenProvider;
-    private final TokenService tokenService;
-    private final UserAuthService userAuthService;
+    private final UserRepository userRepository;
 
     @RequestMapping
     public String solutionList(Model model, HttpServletRequest request) {
@@ -33,9 +33,9 @@ public class SolutionUiController {
 
         String token = HeaderUtil.resolveToken(request);
         if(tokenProvider.validateToken(token)){
-            Long userId = tokenService.find(token);
-            UserResponse user = userAuthService.findById(userId);
-            model.addAttribute("user", user);
+            String name = tokenProvider.getAuthentication(token).getName();
+            var userResponse = userRepository.findByUserId(name);
+            model.addAttribute("user", userResponse);
             return "/auth/solution";
         }
         return "/non-auth/solution";
@@ -47,11 +47,10 @@ public class SolutionUiController {
         model.addAttribute("solution", result);
 
         String token = HeaderUtil.resolveToken(request);
-
         if(tokenProvider.validateToken(token)){
-            Long userId = tokenService.find(token);
-            UserResponse user = userAuthService.findById(userId);
-            model.addAttribute("user", user);
+            String name = tokenProvider.getAuthentication(token).getName();
+            var userResponse = userRepository.findByUserId(name);
+            model.addAttribute("user", userResponse);
             return "/auth/solution";
         }
         return "/non-auth/solution";
