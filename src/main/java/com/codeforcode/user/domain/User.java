@@ -1,5 +1,6 @@
 package com.codeforcode.user.domain;
 
+import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.auth.domain.Authority;
 import com.codeforcode.common.BaseEntity;
 import com.codeforcode.question.domain.Question;
@@ -10,7 +11,12 @@ import com.codeforcode.user.dto.UserDto;
 import com.codeforcode.user.dto.UserResponse;
 import lombok.*;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "`user`")
@@ -47,6 +53,8 @@ public class User extends BaseEntity {
    @Column(name = "activated")
    private boolean activated;
 
+   private Long point;
+
    @ManyToMany
    @JoinTable(
       name = "user_authority",
@@ -55,7 +63,7 @@ public class User extends BaseEntity {
    private Set<Authority> authorities;
 
    @Builder
-   public User(String userId, String password, Name name, Email email, String userName, boolean activated, Set<Authority> authorities) {
+   public User(String userId, String password, Name name, Email email, String userName, boolean activated, Set<Authority> authorities, Long point) {
       this.userId = userId;
       this.password = password;
       this.name = name;
@@ -63,6 +71,7 @@ public class User extends BaseEntity {
       this.userName = userName;
       this.activated = activated;
       this.authorities = authorities;
+      this.point = point;
    }
 
    public UserResponse toResponse() {
@@ -73,6 +82,19 @@ public class User extends BaseEntity {
               .email(email)
               .userName(userName)
               .activated(activated)
+              .point(point)
               .authorities(authorities).build();
+   }
+
+   @Trace
+   public List<GrantedAuthority> grantedAuthorities() {
+      if (!this.isActivated()) {
+         throw new RuntimeException(userId + " -> 활성화되어 있지 않습니다.");
+      }
+
+      return this.getAuthorities().stream()
+              .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
+              .collect(Collectors.toList());
+
    }
 }

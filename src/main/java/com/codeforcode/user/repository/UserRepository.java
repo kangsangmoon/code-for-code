@@ -1,12 +1,57 @@
 package com.codeforcode.user.repository;
 
 import com.codeforcode.user.domain.User;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.codeforcode.user.dto.UserResponse;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import static com.codeforcode.user.domain.QUser.user;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-   @EntityGraph(attributePaths = "authorities")
-   Optional<User> findOneWithAuthoritiesByUserId(String username);
+@Slf4j
+@Repository
+public class UserRepository {
+
+    private final PasswordEncoder passwordEncoder;
+    private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
+
+    public UserRepository(EntityManager em, PasswordEncoder passwordEncoder) {
+        this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional(readOnly = true)
+    public User findByUserId(String userId) {
+        return queryFactory.selectFrom(user)
+                .where(user.userId.eq(userId)).fetchOne();
+    }
+
+    @Transactional(readOnly = true)
+    public User login(String userId, String password) {
+        User result = queryFactory.selectFrom(user)
+                .where(
+                        user.userId.eq(userId)
+                )
+                .fetchOne();
+        log.info(result.getUserId());
+
+        if(result != null && passwordEncoder.matches(password, result.getPassword())) {
+            return result;
+        }
+        return null;
+    }
+
+    @Transactional(readOnly = true)
+    public User login(String userId) {
+
+        return queryFactory.selectFrom(user)
+                .where(user.userId.eq(userId))
+                .fetchOne();
+    }
 }

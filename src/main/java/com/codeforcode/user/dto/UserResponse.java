@@ -21,4 +21,5 @@ public class UserResponse {
     private String userName;
     private boolean activated;
     private Set<Authority> authorities;
+    private Long point;
 }

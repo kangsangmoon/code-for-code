@@ -2,6 +2,7 @@ package com.codeforcode.config;
 
 import com.codeforcode.auth.jwt.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,16 +33,15 @@ public class SecurityConfig {
                 // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .csrf(AbstractHttpConfigurer::disable)
 
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(jwtAccessDeniedHandler)
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
 
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/**", "/api/hello", "/api/authenticate", "/api/signup", "/swagger-ui.html", "/api/**").permitAll()
-                        //.requestMatchers("/ai-test/**").permitAll()
-                        //.requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**").permitAll()
+                        //.requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**").authenticated()
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterBefore(new RedisJwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)  //JWT 필터 추가
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)  //JWT 필터 추가
 
                 // enable h2-console
                 .headers(headers ->
@@ -59,12 +59,5 @@ public class SecurityConfig {
                 .with(new JwtSecurityConfig(tokenProvider), customizer -> {
                 });
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration
-    ) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
     }
 }

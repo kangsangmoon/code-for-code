@@ -1,30 +1,33 @@
 package com.codeforcode.redis.token;
 
 import com.codeforcode.aop.annotation.Trace;
-import com.codeforcode.user.domain.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class TokenService {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Long> redisTemplate;
     private final TokenRepository tokenRepository;
-    private final ValueOperations<String, String> valueOperations;
+    private final ValueOperations<String, Long> valueOperations;
+
+    public TokenService(RedisTemplate<String, Long> redisTemplate, TokenRepository tokenRepository) {
+        this.redisTemplate = redisTemplate;
+        this.tokenRepository = tokenRepository;
+        valueOperations = redisTemplate.opsForValue();
+    }
 
     @Trace
-    public String save(String token, String userName) {
-        valueOperations.set(token, userName);
+    public Long save(String token,Long userId) {
+        valueOperations.set(token, userId);
 
-        return userName;
+        return userId;
     }
 
 
     @Trace
-    public String find(String token){
+    public Long find(String token){
         return valueOperations.get(token);
     }
 }

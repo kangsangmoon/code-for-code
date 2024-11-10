@@ -14,7 +14,7 @@ import java.util.List;
 
 import static com.codeforcode.question.domain.QQuestion.question;
 import static com.codeforcode.question.domain.QComment.comment;
-import static com.codeforcode.solution.QSolution.solution;
+import static com.codeforcode.solution.domain.QSolution.solution;
 import static com.codeforcode.user.domain.QUser.user;
 
 @Repository

@@ -11,12 +11,12 @@ public class TokenController {
     private final TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<?> save(TokenRegisterRequest request){
-        return ResponseEntity.ok(tokenService.save(request.getToken(), request.getUserName()));
+    public ResponseEntity<?> save(TokenRegisterRequest request) {
+        return ResponseEntity.ok(tokenService.save(request.getToken(), request.getUserId()));
     }
 
     @GetMapping("/{token}")
-    public ResponseEntity<?> getUserByToken(@PathVariable(value = "token")String token){
+    public ResponseEntity<?> getUserByToken(@PathVariable(value = "token") String token) {
         return ResponseEntity.ok(tokenService.find(token));
     }
 }
