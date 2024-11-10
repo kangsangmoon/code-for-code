@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     private final RedisTemplate<String, String> redisTemplate;
-    private final TokenRepository tokenRepository;
+    //private final TokenRepository tokenRepository;
     private final ValueOperations<String, String> valueOperations;
     private final UserRepository userRepository;
 
-    public TokenService(RedisTemplate<String, String> redisTemplate, TokenRepository tokenRepository, UserRepository userRepository) {
+    public TokenService(RedisTemplate<String, String> redisTemplate, UserRepository userRepository) {
         this.redisTemplate = redisTemplate;
-        this.tokenRepository = tokenRepository;
+        //this.tokenRepository = tokenRepository;
         valueOperations = redisTemplate.opsForValue();
         this.userRepository = userRepository;
     }
