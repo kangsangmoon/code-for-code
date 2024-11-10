@@ -1,6 +1,5 @@
 package com.codeforcode.redis.config;
 
-import com.codeforcode.redis.token.CacheUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
