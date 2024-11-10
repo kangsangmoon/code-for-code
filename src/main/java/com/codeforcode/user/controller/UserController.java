@@ -2,6 +2,7 @@ package com.codeforcode.user.controller;
 
 import com.codeforcode.aop.annotation.Trace;
 import com.codeforcode.user.dto.UserRegisterRequest;
+import com.codeforcode.user.repository.RankingService;
 import com.codeforcode.user.repository.UserRepository;
 import com.codeforcode.user.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import jakarta.validation.Valid;
 public class UserController {
     private final UserAuthService userAuthService;
     private final UserRepository userRepository;
+    private final RankingService rankingService;
 
 
     @Trace
@@ -46,6 +48,6 @@ public class UserController {
     @Trace
     @GetMapping("/ranking")
     public ResponseEntity<?> getRanking() {
-        return ResponseEntity.ok(userRepository.ranking());
+        return ResponseEntity.ok(rankingService.ranking());
     }
 }

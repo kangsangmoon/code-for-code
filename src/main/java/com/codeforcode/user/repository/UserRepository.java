@@ -59,12 +59,4 @@ public class UserRepository {
 
         return result != null ? result.toResponse() : null;
     }
-
-    @Transactional(readOnly = true)
-    public List<UserResponse> ranking() {
-        List<User> fetch = queryFactory.selectFrom(user)
-                .orderBy(user.point.desc()).fetch();
-
-        return fetch != null ? fetch.stream().map(User::toResponse).toList() : null;
-    }
 }
