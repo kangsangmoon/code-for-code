@@ -10,10 +10,11 @@ import com.codeforcode.error.dto.ErrorMessage;
 import com.codeforcode.error.dto.ErrorResponseDto;
 import com.codeforcode.example.domain.Example;
 import com.codeforcode.example.service.ExampleService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,21 +23,31 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/compile")
+@RequestMapping("/api/v1/compile")
 public class CompileApiController {
 
     private final CompileService compileService;
     private final ExampleService exampleService;
-    private final TokenProvider tokenProvider;  // TokenProvider 주입
+    private final TokenProvider tokenProvider;
 
     @PostMapping("/{solutionId}")
     public ResponseEntity<?> compileCode(
             @PathVariable Long solutionId,
             @RequestBody CompileRequest request,
-            @RequestHeader("Authorization") String token) throws IOException, InterruptedException {
+            HttpServletRequest httpServletRequest
+    ) {
 
-        if (!tokenProvider.validateToken(token.substring(7))) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Token");
+        String token = tokenProvider.resolveToken(httpServletRequest);
+
+        if (token == null || !tokenProvider.validateToken(token)) {
+            log.warn("유효하지 않은 토큰입니다.");
+            return ErrorResponseDto.of(ErrorMessage.INVALID_JWT);
+        }
+
+        Authentication authentication = tokenProvider.getAuthentication(token);
+        if (authentication == null) {
+            log.warn("인증 정보가 없습니다.");
+            return ErrorResponseDto.of(ErrorMessage.UNAUTHORIZED);
         }
 
         Example example = exampleService.getExampleBySolutionId(solutionId);
@@ -46,7 +57,6 @@ public class CompileApiController {
         }
 
         List<Object> parsedInputs = exampleService.parseInExample(example.getInExample());
-
         String result;
         try {
             result = compileService.sendCodeToCompileServer(
