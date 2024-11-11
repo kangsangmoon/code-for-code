@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코딩 테스트 웹사이트</title>
+    <link rel="stylesheet" th:href="@{/css/non_main.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/users/login}">로그인</a></li>
+            <li><a th:href="@{/users/register}">회원가입</a></li>
+            <li><a th:href="@{/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>코딩 테스트 웹사이트</h1>
+        <p>다양한 코딩 테스트 문제를 풀고, 실력을 향상시키세요.</p>
+        <a th:href="@{/users/login}" class="btn">시작하기</a>
+    </section>
+
+    <section class="features">
+        <h2>특징</h2>
+        <div class="feature">
+            <h3>다양한 문제</h3>
+            <p>C, Java, Python 등 여러 분야의 문제를 제공.</p>
+        </div>
+        <div class="feature">
+            <h3>랭킹</h3>
+            <p>다른 사용자들과 경쟁하고 순위를 확인하세요.</p>
+        </div>
+        <div class="feature">
+            <h3>프로토타입</h3>
+            <p>본 페이지는 기능 및 테스트를 하기위한 임시 페이지 입니다.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script th:src="@{/js/non_main.js}"></script>
+</body>
+</html>

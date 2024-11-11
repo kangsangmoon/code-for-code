@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문제 리스트</title>
+    <link rel="stylesheet" th:href="@{/css/non_solution_list.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/users/login}">로그인</a></li>
+            <li><a th:href="@{/users/register}">회원가입</a></li>
+            <li><a th:href="@{/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="problem-list">
+        <h1>문제 리스트</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>문제 제목</th>
+                <th>난이도</th>
+                <th>푼 사람 수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="solution : ${solutionList}">
+                <td><a th:href="@{/solutions/solve/{id}(id=${solution.id})}" th:text="${solution.title}">문제 제목</a></td>
+                <td th:text="${solution.difficulty}">난이도</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script th:src="@{/js/non_solution_list.js}"></script>
+</body>
+</html>

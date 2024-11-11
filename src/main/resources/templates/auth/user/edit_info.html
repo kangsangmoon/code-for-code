@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Info</title>
+    <link rel="stylesheet" th:href="@{/css/edit_info.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/users/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><a th:href="@{/users/my-page}">마이페이지</a></li>
+            <li><a th:href="@{/users/logout}">로그아웃</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="edit-info">
+        <h1>정보 수정</h1>
+        <form th:action="@{/api/users/info/edit/${UserInfo.id}}" th:object="${UpdateRequest}" method="post">
+            <div class="form-group">
+                <label for="userId">UserID</label>
+                <input type="text" th:field="${UpdateRequest.userId}" th:placeholder="${UserInfo.userId}" id="userId"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" th:field="${UpdateRequest.password}" th:placeholder="${UserInfo.password}"
+                       id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" th:field="${UpdateRequest.name}" th:placeholder="${UserInfo.name}" id="name"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:field="${UpdateRequest.email}" th:placeholder="${UserInfo.email}" id="email"
+                       required>
+            </div>
+            <input type="submit" value="정보 수정">
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script th:src="@{/js/edit_info.js}"></script>
+</body>
+</html>
+

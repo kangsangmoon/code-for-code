@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문제 풀기 및 코드 컴파일</title>
+    <link rel="stylesheet" th:href="@{/css/solve.css}">
+</head>
+<body>
+<header>
+    <script src="/js/logout.js"></script>
+    <script src="/js/mypage.js"></script>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><button id="mypage-button">마이페이지</button></li>
+            <li><button onclick="logout()">로그아웃</button></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="container">
+        <section class="problem-description">
+            <h2>문제 설명</h2>
+            <p><span id="title">문제 제목</span></p>
+            <p><span id="description">문제 설명</span></p>
+            <h3>입력 예제</h3>
+            <pre id="inExample">입력 예제</pre>
+            <h3>출력 예제</h3>
+            <pre id="outExample">출력 예제</pre>
+        </section>
+
+        <section class="solution-area">
+            <h2>문제 해결</h2>
+            <form id="compile-form">
+                <label for="language">언어 선택 :</label>
+                <select name="language" id="language">
+                    <option value="c">C</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                </select>
+                <br/><br/>
+                <label for="code">소스 코드:</label><br/>
+                <textarea name="code" id="code"></textarea><br/>
+                <button type="button" onclick="compileCode()">컴파일</button>
+            </form>
+
+            <div class="result">
+                <h2>결과 :</h2>
+                <pre id="output"></pre>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script th:src="@{/js/solve.js}"></script>
+</body>
+</html>

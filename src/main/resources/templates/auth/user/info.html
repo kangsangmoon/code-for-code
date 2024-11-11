@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link rel="stylesheet" th:href="@{/css/info.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><a th:href="@{/users/info}">마이페이지</a></li>
+            <li><a th:href="@{/users/logout}">로그아웃</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="my-page">
+        <h1>마이페이지</h1>
+        <table>
+            <tr>
+                <th>UserID</th>
+                <td th:text="${UserInfo.userId}">Null</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>********</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td th:text="${UserInfo.name.getName()}">Null</td>
+            </tr>
+            <tr>
+                <th>Point</th>
+                <td th:text="${UserInfo.point}">Null</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td th:text="${UserInfo.email.getEmail()}">Null</td>
+            </tr>
+            <tr>
+                <th>RoleType</th>
+                <td th:text="${UserInfo.roleType}">Null</td>
+            </tr>
+        </table>
+        <form id="editForm">
+            <input type="hidden" id="userId" value="${UserInfo.id}">
+            <button type="submit">유저 정보 수정하기</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script src="/js/info.js"></script>
+</body>
+</html>
+
+
+
