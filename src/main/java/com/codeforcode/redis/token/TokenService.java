@@ -40,4 +40,8 @@ public class TokenService {
         String userId = valueOperations.get(token);
         return userRepository.findByUserId(userId);
     }
+
+    public void deleteRefreshToken(String token) {
+        redisTemplate.delete(token);
+    }
 }
