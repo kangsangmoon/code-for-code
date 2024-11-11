@@ -18,7 +18,7 @@ public class UserInfoUiController {
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
 
-    @GetMapping
+    @RequestMapping
     public String userInfo(Model model, HttpServletRequest request) {
         String token = HeaderUtil.resolveToken(request);
         if (tokenProvider.validateToken(token)) {

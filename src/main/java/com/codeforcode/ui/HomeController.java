@@ -22,30 +22,15 @@ public class HomeController {
     private final UserRepository userRepository;
 
     @Trace
-    @GetMapping
+    @RequestMapping
     public String home(Model model, HttpServletRequest req, HttpServletResponse res) {
         String token = HeaderUtil.resolveRefreshToken(req);
-        if (token != null && tokenProvider.validateToken(token)) {
+        if (tokenProvider.validateToken(token)) {
             String name = tokenProvider.getAuthentication(token).getName();
             var userResponse = userRepository.findByUserId(name);
             model.addAttribute("user", userResponse);
             return "auth/main";
         }
         return "non-auth/main";
-    }
-
-    @GetMapping("/solutions/list")
-    public String solutionsList() {
-        return "solutions/list";
-    }
-
-    @GetMapping("/users/ranking")
-    public String usersRanking() {
-        return "users/ranking";
-    }
-
-    @GetMapping("/mypage")
-    public String myPage() {
-        return "mypage";
     }
 }
