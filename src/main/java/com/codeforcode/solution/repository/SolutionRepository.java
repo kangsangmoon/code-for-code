@@ -59,7 +59,8 @@ public class SolutionRepository {
                         levelEq(request.getLevel()),
                         authorEq(request.getAuthor()),
                         titleContains(request.getTitle()),
-                        topicEq(request.getTopic())
+                        topicEq(request.getTopic()),
+                        solvedOver(request.getSolved())
                 )
                 .fetch()
                 .stream()
@@ -85,5 +86,9 @@ public class SolutionRepository {
 
     private BooleanExpression topicEq(String topic) {
         return topic != null ? solution.topic.eq(Topic.valueOf(topic)) : null;
+    }
+
+    private BooleanExpression solvedOver(Long solved){
+        return solved != null ? solution.solved.goe(solved) : null;
     }
 }

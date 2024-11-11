@@ -1,6 +1,5 @@
 package com.codeforcode.solution.dto.request;
 
-import com.codeforcode.solution.domain.vo.Topic;
 import lombok.Data;
 
 @Data
