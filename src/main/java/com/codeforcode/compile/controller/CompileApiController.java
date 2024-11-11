@@ -9,7 +9,7 @@ import com.codeforcode.compile.service.CompileService;
 import com.codeforcode.error.dto.ErrorMessage;
 import com.codeforcode.error.dto.ErrorResponseDto;
 import com.codeforcode.example.domain.Example;
-import com.codeforcode.example.service.ExampleService;
+import com.codeforcode.example.service.ExampleRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
 public class CompileApiController {
 
     private final CompileService compileService;
-    private final ExampleService exampleService;
+    private final ExampleRepository exampleRepository;
     private final TokenProvider tokenProvider;
 
     @PostMapping("/{solutionId}")
@@ -39,24 +39,26 @@ public class CompileApiController {
 
         String token = tokenProvider.resolveToken(httpServletRequest);
 
+        //TODO validateToken에는 유효하지 않을 시 예외를 발생시키는 로직이 이미 있습니다
         if (token == null || !tokenProvider.validateToken(token)) {
             log.warn("유효하지 않은 토큰입니다.");
             return ErrorResponseDto.of(ErrorMessage.INVALID_JWT);
         }
 
+        //TODO 인증 정보가 담기지 않은 토큰은 유효한 토큰이 아닙니다
         Authentication authentication = tokenProvider.getAuthentication(token);
         if (authentication == null) {
             log.warn("인증 정보가 없습니다.");
             return ErrorResponseDto.of(ErrorMessage.UNAUTHORIZED);
         }
 
-        Example example = exampleService.getExampleBySolutionId(solutionId);
+        Example example = exampleRepository.getExampleBySolutionId(solutionId);
         if (example == null) {
             log.warn("문제에 맞는 예제를 찾지 못함: {}", solutionId);
             return ErrorResponseDto.of(ErrorMessage.EXAMPLE_NOT_FIND_BY_ID);
         }
 
-        List<Object> parsedInputs = exampleService.parseInExample(example.getInExample());
+        List<Object> parsedInputs = exampleRepository.parseInExample(example.getInExample());
         String result;
         try {
             result = compileService.sendCodeToCompileServer(
