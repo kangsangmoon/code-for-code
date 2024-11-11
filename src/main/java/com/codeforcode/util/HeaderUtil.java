@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class HeaderUtil {
     @Value("${jwt.header}")
-    private static String header;
+    public static String header;
 
     @Value("${jwt.refresh-header}")
-    private static String refreshHeader;
+    public static String refreshHeader;
 
     /**
      * @implSpec 이 메소드에서는 request header에 포함되어있는 JWT 토큰 값을 가져오게 해준다
