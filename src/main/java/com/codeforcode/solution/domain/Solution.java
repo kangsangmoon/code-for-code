@@ -4,13 +4,15 @@ import com.codeforcode.common.BaseEntity;
 import com.codeforcode.solution.dto.response.SolutionResponse;
 import com.codeforcode.solution.domain.vo.Topic;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Table(name = "`solution`")
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Solution extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,16 +3,16 @@ package com.codeforcode.example.domain;
 import com.codeforcode.common.BaseEntity;
 import com.codeforcode.example.dto.response.ExampleResponse;
 import com.codeforcode.restrictions.Domain;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Table(name = "`example`")
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Example extends BaseEntity implements Domain<ExampleResponse> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,7 @@ public class Example extends BaseEntity implements Domain<ExampleResponse> {
 
     private String outExample;
 
+    @Column(name = "solution_id")
     private Long solutionId;
 
     public Example(String inExample, String outExample, Long solutionId) {
