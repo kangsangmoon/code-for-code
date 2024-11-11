@@ -1,5 +1,6 @@
 spring:
-
+  mvc:
+    static-path-pattern: /static/**
   h2:
     console:
       enabled: true
@@ -13,7 +14,7 @@ spring:
   jpa:
     #    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   #    properties:
@@ -32,6 +33,9 @@ spring:
       host: localhost
       repositories:
         enabled: false
+  web:
+    resources:
+      static-locations: classpath:/static/
 
 
 springdoc:

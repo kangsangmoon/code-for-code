@@ -39,10 +39,7 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**").permitAll()
-                        //.requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**").authenticated()
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers("/", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**", "/css/**", "/js/**", "/images/**").permitAll()
                 )
 
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정

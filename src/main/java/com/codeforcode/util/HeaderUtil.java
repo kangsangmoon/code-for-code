@@ -25,8 +25,13 @@ public class HeaderUtil {
     }
 
     public static String resolveRefreshToken(HttpServletRequest request) {
-        String token = request.getHeader(refreshHeader);
-        log.info("Resolve Token -> {}", token);
-        return token;
+        String bearerToken = request.getHeader("Refresh-Token");
+        if (bearerToken == null) {
+            return null;
+        }
+        if (bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return bearerToken;
     }
 }
