@@ -52,6 +52,9 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.33'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    //Database
+    runtimeOnly 'com.h2database:h2'
+
     //Lombok
     annotationProcessor 'org.projectlombok:lombok'
 
