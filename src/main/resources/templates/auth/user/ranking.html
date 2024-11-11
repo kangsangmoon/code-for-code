@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랭킹 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/ranking.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">홈</a></li>
+            <li><a th:href="@{/solutions/list}">문제</a></li>
+            <li><a th:href="@{/users/ranking}">랭킹</a></li>
+            <li><button id="mypage-button">마이페이지</button></li>
+            <li><button onclick="logout()">로그아웃</button></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="ranking-list">
+        <h1>랭킹</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>순위</th>
+                <th>사용자 이름</th>
+                <th>포인트</th>
+            </tr>
+            </thead>
+            <tbody id="rankingTableBody">
+            <!-- 데이터는 JavaScript로 채워질 예정 -->
+            </tbody>
+        </table>
+        <p id="errorMessage" style="color: red; display: none;">랭킹 데이터를 불러오는 중 오류가 발생했습니다.</p>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script th:src="@{/js/ranking.js}"></script>
+</body>
+</html>
