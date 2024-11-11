@@ -5,24 +5,26 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/querydsl
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3306/quiz_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: "0000"
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    #    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-    defer-datasource-initialization: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  #    properties:
+  #      hibernate:
+  #        format_sql: true
+  #        show_sql: true
+  #    defer-datasource-initialization: true
 
-  sql:
-    init:
-      mode: always
+  #  sql:
+  #    init:
+  #      mode: always
 
   data:
     redis:
@@ -46,10 +48,11 @@ springdoc:
 gemini:
   api:
     url: https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent
-    key: # 자신이 발급 받은 API 키 입력
+    key:
 
 jwt:
   header: Authorization
+  refresh-header: RefreshToken
   #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
   #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
