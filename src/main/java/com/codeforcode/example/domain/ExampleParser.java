@@ -1,11 +1,14 @@
 package com.codeforcode.example.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ExampleParser {
 
-    public static List<Object> parseInExample(String inExample) {
+    public List<Object> parseInExample(String inExample) {
         String[] tokens = inExample.split(",");
         List<Object> parsedInputs = new ArrayList<>();
 
@@ -17,7 +20,7 @@ public class ExampleParser {
         return parsedInputs;
     }
 
-    private static Object parseToken(String token) {
+    private Object parseToken(String token) {
         try {
             if (token.contains(".")) {
                 return Double.parseDouble(token);
