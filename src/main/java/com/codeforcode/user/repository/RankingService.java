@@ -18,13 +18,11 @@ import static com.codeforcode.user.domain.QUser.user;
 public class RankingService implements InitializingBean {
 
     private final JPAQueryFactory queryFactory;
-    private final EntityManager em;
 
     private List<User> rankingList;
     private LocalDateTime lastUpdate;
 
     public RankingService(EntityManager em) {
-        this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
         this.lastUpdate = DateUtil.getLocalDateTime();
     }
@@ -53,5 +51,4 @@ public class RankingService implements InitializingBean {
         int compareResult = dayDate2.compareTo(dayDate1);
         return compareResult >= 1;
     }
-
 }

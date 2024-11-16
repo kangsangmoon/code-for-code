@@ -17,7 +17,6 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/user")
 public class UserController {
     private final UserAuthService userAuthService;
-    private final UserRepository userRepository;
     private final RankingService rankingService;
 
 
