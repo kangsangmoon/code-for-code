@@ -1,6 +1,5 @@
 package com.codeforcode.compile.controller;
 
-
 import com.codeforcode.auth.jwt.TokenProvider;
 import com.codeforcode.common.dto.ResponseDto;
 import com.codeforcode.common.dto.ResponseMessage;
@@ -42,14 +41,7 @@ public class CompileApiController {
         //TODO validateToken에는 유효하지 않을 시 예외를 발생시키는 로직이 이미 있습니다
         if (token == null || !tokenProvider.validateToken(token)) {
             log.warn("유효하지 않은 토큰입니다.");
-            return ErrorResponseDto.of(ErrorMessage.INVALID_JWT);
-        }
-
-        //TODO 인증 정보가 담기지 않은 토큰은 유효한 토큰이 아닙니다
-        Authentication authentication = tokenProvider.getAuthentication(token);
-        if (authentication == null) {
-            log.warn("인증 정보가 없습니다.");
-            return ErrorResponseDto.of(ErrorMessage.UNAUTHORIZED);
+            return null;
         }
 
         Example example = exampleRepository.getExampleBySolutionId(solutionId);

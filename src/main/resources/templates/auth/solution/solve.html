@@ -8,15 +8,13 @@
 </head>
 <body>
 <header>
-    <script src="/js/logout.js"></script>
-    <script src="/js/mypage.js"></script>
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
             <li><a th:href="@{/solutions/list}">문제</a></li>
             <li><a th:href="@{/users/ranking}">랭킹</a></li>
-            <li><button id="mypage-button">마이페이지</button></li>
-            <li><button onclick="logout()">로그아웃</button></li>
+            <li><a th:href="@{/js/mypage.js}">마이페이지</a></li>
+            <li><a th:href="@{/js/logout.js}">로그아웃</a></li>
         </ul>
     </nav>
 </header>
@@ -25,37 +23,58 @@
     <div class="container">
         <section class="problem-description">
             <h2>문제 설명</h2>
-            <p><span id="title">문제 제목</span></p>
-            <p><span id="description">문제 설명</span></p>
-            <h3>입력 예제</h3>
-            <pre id="inExample">입력 예제</pre>
-            <h3>출력 예제</h3>
-            <pre id="outExample">출력 예제</pre>
+            <p><span id="title"></span></p> //문제 제목
+            <p><span id="description"></span></p> // 문제내용이 들어감
+
+            <div class="example-set">
+                <div class="example">
+                    <h3>입력 예제1</h3>
+                    <pre id="inExample"></pre> //example에 예제가 들어감
+                </div>
+                <div class="example">
+                    <h3>출력 예제1</h3>
+                    <pre id="outExample"></pre>//example에 예제가 들어감
+                </div>
+            </div>
+
         </section>
 
         <section class="solution-area">
             <h2>문제 해결</h2>
             <form id="compile-form">
-                <label for="language">언어 선택 :</label>
+
+                <label for="language">언어 선택 :</label><br/>
                 <select name="language" id="language">
                     <option value="c">C</option>
+                    <option value="cpp">C++</option>
                     <option value="java">Java</option>
                     <option value="python">Python</option>
+                    <option value="javascript">Javascript</option>
                 </select>
+
                 <br/><br/>
                 <label for="code">소스 코드:</label><br/>
                 <textarea name="code" id="code"></textarea><br/>
+
                 <button type="button" onclick="compileCode()">컴파일</button>
+
             </form>
 
             <div class="result">
-                <h2>결과 :</h2>
+                <h2>결과</h2>
                 <pre id="output"></pre>
             </div>
+
         </section>
+
     </div>
+
 </main>
 
 <script th:src="@{/js/solve.js}"></script>
+
+<footer>&copy; 2024 코딩 테스트 웹사이트.</footer>
+
 </body>
 </html>
+

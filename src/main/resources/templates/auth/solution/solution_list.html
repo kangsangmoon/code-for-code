@@ -8,15 +8,13 @@
 </head>
 <body>
 <header>
-    <script src="/js/logout.js"></script>
-    <script src="/js/mypage.js"></script>
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a></li>
-            <li><a th:href="@{/solutions/list}">문제</a></li>
+            <li><a th:href="@{/solution}">문제</a></li>
             <li><a th:href="@{/users/ranking}">랭킹</a></li>
-            <li><button id="mypage-button">마이페이지</button></li>
-            <li><button onclick="logout()">로그아웃</button></li>
+            <li><a th:href="@{/js/mypage.js}">마이페이지</a></li>
+            <li><a th:href="@{/js/logout.js}">로그아웃</a></li>
         </ul>
     </nav>
 </header>
@@ -33,20 +31,34 @@
             </tr>
             </thead>
             <tbody>
+            // ai 문제생성 페이지로 수정 필요
+            <tr>
+                <a th:text="${solution.title}">
+                    <button id="mypage-button" style="background-color: blue; color: white; padding: 15px 30px; font-size: 16px; border-radius: 10px; border: none; box-shadow: 0 4px #004080; transition: all 0.2s ease;">
+                        AI 문제 생성
+                    </button>
+                </a>
+
+
+
+            </tr>
             <tr th:each="solution : ${solutionList}">
                 <td><a th:href="@{/solution/solve/{id}(id=${solution.id})}" th:text="${solution.title}">문제 제목</a></td>
                 <td th:text="${solution.difficulty}">난이도</td>
                 <td th:text="${solution.solved}">푼 사람 수</td>
+            </tr>
             </tr>
             </tbody>
         </table>
     </section>
 </main>
 
-<footer>
+<footer style="position: fixed; bottom: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 10px 0;">
     <p>&copy; 2024 코딩 테스트 웹사이트.</p>
 </footer>
 
-<script th:src="@{/js/auth_solution_ist.js}"></script>
+
+<script th:src="@{/js/auth_solution_list.js}"></script>
+
 </body>
 </html>
