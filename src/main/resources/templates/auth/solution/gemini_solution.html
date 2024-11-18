@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 문제 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/gemini_solution.css}">
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/}">홈</a></li>
+        <li><a th:href="@{/solutions/list}">문제</a></li>
+        <li><a th:href="@{/users/ranking}">랭킹</a></li>
+        <li><button id="mypage-button">마이페이지</button></li>
+        <li><button onclick="logout()">로그아웃</button></li>
+    </ul>
+</nav>
+
+<main>
+
+    <section class="problem-generator">
+        <h2>AI 문제 생성기</h2>
+
+        <form id="problem-form" onsubmit="generateProblem(event)">
+
+            <label for="topic">주제:</label>
+            <select id="topic" name="topic" required>
+                <option value="" disabled selected>주제를 선택하세요</option>
+                <option value="GREED">탐욕 알고리즘</option>
+                <option value="DYNAMIC">동적 알고리즘</option>
+            </select>
+
+            <label for="difficulty">난이도:</label>
+            <select id="difficulty" name="difficulty" required>
+                <option value="" disabled selected>난이도를 선택하세요</option>
+                <option value="쉬움">쉬움</option>
+                <option value="중간">중간</option>
+                <option value="어려움">어려움</option>
+            </select>
+
+            <label for="custom-problem">사용자 정의 문제:</label>
+            <textarea id="custom-problem" name="custom-problem" rows="4" placeholder="원하는 문제를 입력하세요..."></textarea>
+
+            <button type="submit">문제 생성</button>
+
+        </form>
+
+    </section>
+
+    <section class="problem-display">
+        <h2>생성된 문제:</h2>
+
+        <div id="generated-problem" th:text="${generatedProblem}">
+            여기에 문제가 표시됩니다.
+        </div>
+
+    </section>
+
+    <section class="compiler-section">
+        <h2>코드 컴파일러</h2>
+
+        <form id="compile-form">
+
+            <label for="language">언어 선택 :</label><br/>
+            <select name="language" id="language">
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="javascript">Javascript</option>
+            </select>
+
+            <br/><br/>
+            <label for="code">소스 코드:</label><br/>
+            <textarea name="code" id="code"></textarea><br/>
+
+            <button type="button" onclick="compileCode()">컴파일</button>
+
+        </form>
+
+        <div class="result">
+            <h2>결과:</h2>
+            <pre id="output" th:text="${compileResult}"></pre>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 코딩 테스트 웹사이트.</p>
+</footer>
+
+<script th:src="@{/js/gemini_solution.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 2fr;
+    gap: 10px;
+    height: calc(100vh - 120px);
+    padding: 20px;
+}
+
+.problem-generator {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.problem-generator h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+select, button, textarea {
+    padding: 8px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+button {
+    background-color :#333;
+    color :white;
+    border :none;
+    cursor :pointer;
+}
+
+button:hover {
+    background-color :#555;
+}
+
+textarea {
+    resize: none;
+}
+
+.problem-display {
+    grid-column :1 /2;
+    grid-row :2 /3;
+    background-color :white;
+    box-shadow :0 0 15px rgba(0,0,0,0.1);
+    padding :20px;
+}
+
+.problem-display h2{
+    font-size :18px;
+    margin-bottom :10px;
+}
+
+#generated-problem{
+    font-size :16px;
+    border :1px solid #ddd;
+    padding :15px;
+    min-height :10px;
+}
+
+/* 컴파일러 섹션 스타일 */
+.compiler-section{
+    grid-column :2 /3;
+    grid-row :1 /3;
+    background-color:white;
+    box-shadow :0 0 15px rgba(0,0,0,0.1);
+    padding :20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.compiler-section h2{
+    font-size :18px;
+    margin-bottom :10px;
+}
+
+textarea{
+    width :100%;
+    height :120px;
+    margin-bottom :10px;
+    padding :10px;
+    font-size :14px;
+    border-radius :5px;
+    border :1px solid #ddd;
+}
+
+.result{
+    margin-top:auto;
+}
+
+.result h2{
+    font-size :18px;
+}
+
+pre#output{
+    background-color:#f4f4f4;
+    padding :15px;
+    border-radius :5px;
+    border :1px solid #ddd;
+    min-height :80px;
+    font-size :14px;
+    overflow:auto;
+    flex-grow:1;
+}
+
+footer{
+    background-color:#333;
+    color:white;
+    text-align:center;
+    padding :20px 0;
+}
