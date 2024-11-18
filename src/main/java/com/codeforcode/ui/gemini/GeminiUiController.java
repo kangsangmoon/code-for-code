@@ -29,6 +29,6 @@ public class GeminiUiController {
             return "auth/gemini_solution";
         }
 
-        return "redirect:/solutions/list";
+        return "redirect:/solution/list";
     }
 }
