@@ -1,9 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const registerForm = document.getElementById('registerForm');
     const passwordInput = document.getElementById('password');
     const repeatPasswordInput = document.getElementById('repeatPassword');
     const passwordHelp = document.getElementById('passwordHelp');
-
     const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/;
 
     function validateForm() {
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('비밀번호를 입력하세요.');
             valid = false;
         } else if (!PASSWORD_REGEX.test(password)) {
-            alert('비밀번호가 조건에 맞지 않습니다. 8~16자, 영문, 숫자, 특수문자를 포함해야 합니다.');
+            alert('비밀번호는 8~16자, 영문, 숫자, 특수문자(~!@#$%^&*()+|=)를 포함해야 합니다.');
             valid = false;
         }
 
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function submitForm(data) {
-        fetch('/api/users/signup', {
+        fetch('/api/v1/user/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,19 +58,34 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(data)
         })
             .then(response => {
-                if (response.ok) {
-                    localStorage.setItem('code-for-code-auth', response.headers.get("code-for-code-auth"));
-                    alert('회원가입이 완료되었습니다!');
-                    window.location.href = '/';
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text(); // JSON 대신 텍스트로 먼저 받습니다.
+            })
+            .then(text => {
+                if (!text) {
+                    throw new Error('서버로부터 빈 응답을 받았습니다.');
+                }
+                try {
+                    return JSON.parse(text); // 텍스트를 JSON으로 파싱합니다.
+                } catch (e) {
+                    console.error('JSON 파싱 오류:', e);
+                    console.log('받은 텍스트:', text);
+                    throw new Error('서버 응답을 처리하는 중 오류가 발생했습니다.');
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('회원가입이 완료되었습니다.');
+                    window.location.href = '/user/login';
                 } else {
-                    response.json().then(data => {
-                        alert(data.message || '회원가입 중 오류가 발생했습니다.');
-                    });
+                    alert('회원가입에 실패했습니다: ' + (data.message || '알 수 없는 오류'));
                 }
             })
             .catch(error => {
-                console.error('서버 오류:', error);
-                alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                console.error('Error:', error);
+                alert('회원가입 실패: ' + error.message);
             });
     }
 
@@ -83,11 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = {
                     userId: document.getElementById('userId').value.trim(),
                     password: passwordInput.value.trim(),
-                    repeatPassword: repeatPasswordInput.value.trim(),
                     name: document.getElementById('userName').value.trim(),
-                    email: document.getElementById('email').value.trim()
+                    email: document.getElementById('email').value.trim(),
+                    userName: document.getElementById('userId').value.trim() // userName 추가
                 };
-
                 submitForm(data);
             }
         });
@@ -95,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         passwordInput.addEventListener('input', function () {
             if (PASSWORD_REGEX.test(passwordInput.value)) {
                 passwordHelp.style.color = 'green';
-                passwordHelp.textContent = '비밀번호 조건이 충족되었습니다.';
+                passwordHelp.textContent = '비밀번호가 유효합니다.';
             } else {
                 passwordHelp.style.color = 'red';
                 passwordHelp.textContent = '비밀번호는 8~16자, 영문, 숫자, 특수문자(~!@#$%^&*()+|=)를 포함해야 합니다.';

@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const headers = { 'code-for-code-auth': localStorage.getItem('code-for-code-auth') } // 토큰 가져오기
         if (headers) {
             try {
-                const response = await(await fetch(`/api/users/info/edit/${hidden}`, {
+                const response = await(await fetch(`/api/user/info/edit/${hidden}`, {
                     headers
                 })).json()
                 console.log(hidden,headers,response)
                 if (response.ok) {
                     // 성공적으로 요청이 완료된 경우
-                    window.location.href = `/api/users/info/edit/${hidden}`; // 해당 페이지로 이동
+                    window.location.href = `/api/user/info/edit/${hidden}`; // 해당 페이지로 이동
                 } else {
                     alert('페이지를 로드하는데 실패했습니다.');
                 }

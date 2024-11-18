@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmStart = confirm('시작할려면 로그인을 해야합니다. 로그인 화면으로 이동하시겠습니까?');
         if (confirmStart) {
             // 사용자가 확인하면 해당 URL로 이동
-            window.location.href = '/users/login'
+            window.location.href = '/user/login'
         }
     });
 

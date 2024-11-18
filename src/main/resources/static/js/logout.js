@@ -5,7 +5,7 @@ function logout() {
         const token = localStorage.getItem('code-for-code-auth');
         if (token) {
             try {
-                const response = await fetch('/api/users/logout', {
+                const response = await fetch('/api/user/logout', {
                     method: 'DELETE',
                     headers: {
                         'code-for-code-auth': `${token}`

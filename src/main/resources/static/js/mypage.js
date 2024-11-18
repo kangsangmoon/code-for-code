@@ -9,7 +9,7 @@ function mypage() {
 
             if (token) {
                 try {
-                    const response = await fetch('/users/info', {
+                    const response = await fetch('/user/info', {
                         method: 'GET',
                         headers: {
                             'code-for-code-auth': `${token}`
@@ -17,7 +17,7 @@ function mypage() {
                     });
 
                     if (response.ok) {
-                        window.location.href = '/users/info';
+                        window.location.href = '/user/info';
                     } else {
                         alert('마이페이지 접근 오류. 다시 시도해주세요.');
                         mypageButton.disabled = false;

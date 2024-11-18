@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (token) {
                 // 토큰으로 로그인 시도
                 try {
-                    const response = await fetch('/api/users/login/token', {
+                    const response = await fetch('/api/user/login/token', {
                         method: 'POST',
                         headers: {
                             'code-for-code-auth': `${token}`
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = { userId, password };
 
                 try {
-                    const response = await fetch('/api/users/login', {
+                    const response = await fetch('/api/user/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ function checkLoginStatus() {
     const token = localStorage.getItem('code-for-code-auth');
     if (!token) {
         alert('로그인이 필요합니다.');
-        window.location.replace("/users/login");
+        window.location.replace("/user/login");
     } else {
         console.log('로그인 상태 확인: 토큰이 있습니다.');
     }
@@ -96,7 +96,7 @@ async function fetchWithToken(url, options = {}) {
 
     if (!token) {
         alert('로그인이 필요합니다.');
-        window.location.replace("/users/login");
+        window.location.replace("/user/login");
         return;
     }
 
@@ -114,7 +114,7 @@ async function fetchWithToken(url, options = {}) {
         if (response.status === 401) {
             alert('인증 오류가 발생했습니다. 다시 로그인 해주세요.');
             localStorage.removeItem('code-for-code-auth');
-            window.location.replace("/users/login");
+            window.location.replace("/user/login");
         }
         return response;
     } catch (error) {
