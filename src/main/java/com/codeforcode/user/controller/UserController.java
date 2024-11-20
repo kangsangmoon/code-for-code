@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 public class UserController {
     private final UserAuthService userAuthService;
     private final RankingService rankingService;
+    private final UserRepository userRepository;
 
 
     @Trace
@@ -29,7 +30,12 @@ public class UserController {
     @Trace
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody UserRegisterRequest request) {
-        return ResponseEntity.ok(userAuthService.signup(request));
+        return ResponseEntity.ok(userRepository.signup(request));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
     @GetMapping("/user")

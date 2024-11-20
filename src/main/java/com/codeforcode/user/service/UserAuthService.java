@@ -26,34 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserAuthService {
     private final UserAuthRepository userAuthRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    @Trace
-    @Transactional
-    public UserResponse signup(@Valid UserRegisterRequest request) {
-        if (userAuthRepository.findOneWithAuthoritiesByUserId(request.getUserId()).orElse(null) != null) {
-            throw new DuplicateUserException();
-        }
-
-        Authority authority = Authority.builder()
-                .authorityName("ROLE_USER")
-                .build();
-
-        User user = User.builder()
-                .userId(request.getUserId())
-                .name(new Name(request.getName()))
-                .email(new Email(request.getEmail()))
-                .password(request.getPassword())
-                .userName(request.getUserName())
-                .authorities(Collections.singleton(authority))
-                .activated(true)
-                .point(0L)
-                .build();
-
-        User save = userAuthRepository.save(user);
-
-        return save.toResponse();
-    }
 
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String username) {
@@ -67,13 +39,5 @@ public class UserAuthService {
                         .flatMap(userAuthRepository::findOneWithAuthoritiesByUserId)
                         .orElseThrow(NotFoundMemberException::new)
         );
-    }
-
-    @Transactional(readOnly = true)
-    public UserResponse findById(Long id) {
-        return userAuthRepository
-                .findById(id)
-                .orElseThrow(NotFoundMemberException::new)
-                .toResponse();
     }
 }
