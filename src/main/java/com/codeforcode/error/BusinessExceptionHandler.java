@@ -2,6 +2,7 @@ package com.codeforcode.error;
 
 import com.codeforcode.error.dto.ErrorMessage;
 import com.codeforcode.error.dto.ErrorResponseDto;
+import com.codeforcode.error.excpetion.user.WrongPasswordException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
